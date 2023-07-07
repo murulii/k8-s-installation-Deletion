@@ -1,0 +1,10 @@
+Delete Created EKS Cluster and Worker Group
+
+###Delete Worker Grp First
+aws eks --region <region-name> delete-nodegroup --cluster-name <cluster-name> --nodegroup-name <nodegroup-name>
+aws eks --region <region-name> describe-nodegroup --cluster-name <cluster-name> --nodegroup-name <nodegroup-name> --query "nodegroup.status" 
+####Check status of Deletion of Workergrp Nodes
+
+##Delete Cluster EKS
+aws eks --region <region-name> delete-cluster --name <cluster-name>
+aws eks --region <region-name> describe-cluster --name <cluster-name> --query "cluster.status"    ####Check status of Deletion of Cluster
