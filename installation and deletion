@@ -1,3 +1,10 @@
+install 
+6)  Create EKS using eksctl cmd
+
+
+    eksctl create cluster --name jhooq-test-cluster --version 1.24 --region ap-south-1 --nodegroup-name worker-nodes --node-type t2.micro --nodes 2
+
+
 Delete Created EKS Cluster and Worker Group
 
 ###Delete Worker Grp First
