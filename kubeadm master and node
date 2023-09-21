@@ -77,7 +77,7 @@ sudo apt-mark hold kubelet kubeadm kubectl
 ./common.sh
 #####Now you need to change master.sh file
 
-sudo nano master.sh
+sudo nano master.sh  ## you can run directly--- kubeadm init
 ##### PUBLIC_IP_ACCESS="false"
 
 ##### False replace with true
