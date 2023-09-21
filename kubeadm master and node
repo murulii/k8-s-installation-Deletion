@@ -105,112 +105,14 @@ using ----->kubeadm reset
 #############################################################################################################################
 
 ##################################################################################################################################
+After installtion of cluster
 
-NAME               STATUS   ROLES           AGE     VERSION
-ip-172-31-1-99     Ready    control-plane   3h40m   v1.27.2
-ip-172-31-13-187   Ready    <none>          3h37m   v1.27.2
-Step #5:Join Worker Node to the Cluster
-Next Join two worker nodes to master.
+error:------
 
-sudo kubeadm join 172.31.6.177:6443 --token vr5rat.seyprj6jvw4xy43m --discovery-token-ca-cert-hash sha256:4c9b53eb03744b4cf21c5bdacd712024eb09030561714cc5545838482c8017b3
-Output:
+NAME     STATUS     ROLES           AGE   VERSION
+master   NotReady   control-plane   10m   v1.28.2
+#########################################
+solution:--
 
-This node has joined the cluster:
-* Certificate signing request was sent to apiserver and a response was received.
-* The Kubelet was informed of the new secure connection details.
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
-Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
-Check the All node status
-
-sudo kubectl get nodes
-Output:
-
-Status:
-
-NAME               STATUS   ROLES    AGE     VERSION
-
-ip-172-31-16-180   Ready    master   3m19s   v1.20.5
-
-ip-172-31-16-86    Ready    worker1   6m15s   v1.20.5
-
-ip-172-31-21-34    Ready    worker2   3m23s   v1.20.5
-To Verify Pod namespaces
-
-sudo kubectl get pods --all-namespaces
-Output:
-
-NAMESPACE     NAME                                      READY   STATUS    RESTARTS   AGE
-
-kube-system   coredns-6955765f44-7sw4r                  1/1     Running   0          6m46s
-
-kube-system   coredns-6955765f44-nwwx5                  1/1     Running   0          6m46s
-
-kube-system   etcd-ip-172-31-16-86                      1/1     Running   0          6m53s
-
-kube-system   kube-apiserver-ip-172-31-16-86            1/1     Running   0          6m53s
-
-kube-system   kube-controller-manager-ip-172-31-16-86   1/1     Running   0          6m53s
-
-kube-system   kube-proxy-b5vht                          1/1     Running   0          4m5s
-
-kube-system   kube-proxy-cm6r4                          1/1     Running   0          4m1s
-
-kube-system   kube-proxy-jxr9z                          1/1     Running   0          6m45s
-
-kube-system   kube-scheduler-ip-172-31-16-86            1/1     Running   0          6m53s
-
-kube-system   weave-net-99tsd                           2/2     Running   0          93s
-
-kube-system   weave-net-bwshk                           2/2     Running   0          93s
-
-kube-system   weave-net-g8rg8                           2/2     Running   0          93s
-We have covered Install Kubernetes cluster on Ubuntu.
-
-Step #6:Deploy Sample Nginx microservice on Kubernetes
-Lets create a deployment on master node named “nginx-deploy” using YAML.
-
-sudo nano nginx-deploy.yaml
-Deployment YAML file should like below
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nginx-deployment
-  labels:
-    app: nginx-app
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: nginx-app
-  template:
-    metadata:
-      labels:
-        app: nginx-app
-    spec:
-      containers:
-      - name: nginx-container
-        image: nginx:latest
-        ports:
-        - containerPort: 80
-kubectl apply -f nginx-deploy.yml
-Lets check Pod status
-
-kubectl get pods
-Expose the Nginx deployment using kubernetes nodeport (32000) service
-
-cat <<EOF | kubectl apply -f -
-apiVersion: v1
-kind: Service
-metadata:
-  name: nginx-app
-spec:
-  selector: 
-    app: nginx-app
-  type: NodePort  
-  ports:
-    - port: 80
-      targetPort: 80
-      nodePort: 32000
-EOF 
-Now access the nginx service by using worked node IP and port 32000
