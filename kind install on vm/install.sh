@@ -45,3 +45,44 @@ nodes:
 
 kind create cluster --name=kubernetes --config=kind-config
 kubectl get nodes
+
+============================================
+###Default port forwarding not enable to enable and acess svc ouside host we need to confgihre ingress controller
+============================================
+nano ingress-config
+++++++++
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  kubeadmConfigPatches:
+  - |
+    kind: InitConfiguration
+    nodeRegistration:
+      kubeletExtraArgs:
+        node-labels: "ingress-ready=true"
+  extraPortMappings:
+  - containerPort: 80
+    hostPort: 80
+    protocol: TCP
+  - containerPort: 443
+    hostPort: 443
+    protocol: TCP
+
+    ++++++++++
+    
+    kind create cluster --name=ingress-cluster --config=ingress-config
+kubectl get nodes
+
+###you will get ready state of 
+###ingress-cluster-control-plane   Ready    control-plane   5m27s   v1.27.3
+
+
+    
+
+
+    
+
+
+
+
