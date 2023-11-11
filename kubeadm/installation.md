@@ -17,19 +17,25 @@
 ##  Update the system's package list and install necessary dependencies using the following commands:
 
 `sudo apt-get update`
+
 `sudo apt install apt-transport-https curl -y`
 ##  Install containerd
 ##  o install Containerd, use the following commands:
 
 `sudo mkdir -p /etc/apt/keyrings`
+
 `curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg`
+
 `echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null`
+
 `sudo apt-get update`
+
 `sudo apt-get install containerd.io -y`
 ##  Create containerd configuration
 ##  Next, create the containerd configuration file using the following commands:
 
 `sudo mkdir -p /etc/containerd`
+
 `sudo containerd config default | sudo tee /etc/containerd/config.toml`
 ##  Edit /etc/containerd/config.toml
 ##  Edit the containerd configuration file to set SystemdCgroup to true. Use the following command to open the file:
@@ -45,7 +51,9 @@
 ##  To install Kubernetes, use the following commands:
 
 `curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add`
+
 `sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"`
+
 `sudo apt install kubeadm kubelet kubectl kubernetes-cni`
 ## Disable swap
 ## Disable swap using the following command:
