@@ -8,10 +8,10 @@ install
 Delete Created EKS Cluster and Worker Group
 
 ###Delete Worker Grp First
-aws eks --region <region-name> delete-nodegroup --cluster-name <cluster-name> --nodegroup-name <nodegroup-name>
-aws eks --region <region-name> describe-nodegroup --cluster-name <cluster-name> --nodegroup-name <nodegroup-name> --query "nodegroup.status" 
+aws eks --region ap-south-1 delete-nodegroup --cluster-name jhooq-test-cluster --nodegroup-name worker-nodes
+aws eks --region ap-south-1 describe-nodegroup --cluster-name jhooq-test-cluster --nodegroup-name worker-nodes --query "nodegroup.status" 
 ####Check status of Deletion of Workergrp Nodes
 
 ##Delete Cluster EKS
-aws eks --region <region-name> delete-cluster --name <cluster-name>
-aws eks --region <region-name> describe-cluster --name <cluster-name> --query "cluster.status"    ####Check status of Deletion of Cluster
+aws eks --region ap-south-1 delete-cluster --name jhooq-test-cluster
+aws eks --region ap-south-1 describe-cluster --name jhooq-test-cluster --query "cluster.status"    ####Check status of Deletion of Cluster
